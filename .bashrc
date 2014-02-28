@@ -10,6 +10,7 @@ alias ll='ls -l'
 alias l='ls -laAhF'
 alias dir='ls -a'
 alias ls="ls -FGoah"
+alias ip="dig +short myip.opendns.com @208.67.222.222 @208.67.220.220"
 alias dnsflush="dscacheutil -flushcache"
 
 ## Returns the active branch of the current directory. Used by PS1
