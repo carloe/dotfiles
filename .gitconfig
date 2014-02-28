@@ -6,6 +6,7 @@
 	user = carloe
 
 [color]
+	ui = true
 	diff = auto
 	status = auto
 	branch = auto

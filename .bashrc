@@ -1,9 +1,16 @@
+## History Settings
+export CLICOLOR=1
+export HISTFILESIZE=5000
+export HISTCONTROL=ignoreboth
+
 ## Aliases
 alias c='clear'
 alias la='ls -la'
 alias ll='ls -l'
 alias l='ls -laAhF'
 alias dir='ls -a'
+alias ls="ls -FGoah"
+alias dnsflush="dscacheutil -flushcache"
 
 ## Returns the active branch of the current directory. Used by PS1
 function parse_git_branch {
@@ -23,7 +30,7 @@ cd() {
 
 ## We'll call this cd, clear and dir
 function cl () {
-  cd "$@" && clear && ls -lah
+  builtin cd "$@" && clear && ls -lah
 }
 
 ## Gimme some envs
