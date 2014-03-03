@@ -1,0 +1,14 @@
+# update Homebrew just in case
+update
+
+# upgrade installed packages
+upgrade
+
+# install all of the things
+install python
+install jq
+install sshuttle
+install brew-cask
+
+# don't leave a mess
+cleanup
