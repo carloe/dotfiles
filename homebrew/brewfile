@@ -9,6 +9,7 @@ install python
 install jq
 install sshuttle
 install brew-cask
+install node
 
 # don't leave a mess
 cleanup
