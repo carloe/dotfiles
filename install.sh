@@ -48,4 +48,7 @@ fi
 echo "Running Brewfile..."
 brew bundle homebrew/brewfile
 
+echo "Copying the scripts to /ust/bin. This requires sudo."
+sudo cp bin/* /usr/bin/
+
 exit 0
