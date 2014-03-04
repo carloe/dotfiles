@@ -5,6 +5,7 @@ update
 upgrade
 
 # install all of the things
+install git
 install python
 install jq
 install sshuttle
