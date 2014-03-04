@@ -1,0 +1,63 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+#
+#	get movie info from rotten romatoes via the command line
+#
+
+import sys
+from bs4 import BeautifulSoup
+import urllib2
+import argparse
+
+SOURCE_URL = "http://www.rottentomatoes.com/"
+
+SPAN_PLAYING = 'sidebarInTheaterOpening'
+SPAN_BOXOFFICE = 'sidebarInTheaterTopBoxOffice'
+SPAN_COMINGSOON = 'sidebarInTheaterComingSoon'
+
+def main():
+	parser = argparse.ArgumentParser(description="Get movie info from Rotten Tomatoes")
+	parser.add_argument('-p', "--playing", help='show movies that are now playing', action='store_true')
+	parser.add_argument('-b', "--boxoffice", help='show boxoffice info', action='store_true')
+	parser.add_argument('-s', "--coming-soon", help='show movies will open soon', action='store_true')
+	args = parser.parse_args()
+
+	req = urllib2.Request(SOURCE_URL)
+	req.add_header('User-agent', 'Mozilla 5.10')
+	page = urllib2.urlopen(req)
+
+	if args.playing:
+		printTable(page, SPAN_PLAYING)
+	elif args.boxoffice:
+		printTable(page, SPAN_BOXOFFICE)
+	elif args.coming_soon:
+		printTable(page, SPAN_COMINGSOON)
+	else:
+		parser.error("you need to set a flag")
+
+def printTable(page=None, span=None):
+	soup = BeautifulSoup(page.read())
+	data = soup.findAll('tr',{'class':span})
+	movies = []
+	longest = 0;
+	for d in data:
+		obj = {}
+		try:
+			name = d.find('td', {'class':'middle_col'}).find('a').string;
+			if len(name)>longest:
+				longest = len(name)
+			obj['name'] = name.strip();
+			obj['right'] = d.find('td', {'class':'right_col right'}).string.strip();
+			obj['perc'] = d.find('span', {'class':'tMeterScore'}).string.strip();
+		except AttributeError, e:
+			obj['perc'] = "...."
+		finally:
+			movies.append(obj)
+	for movie in movies:
+		if span == SPAN_COMINGSOON:
+			print "[%s] %s" % (movie['right'].rjust(6), movie['name'].ljust(longest))
+		else:
+			print "[%s] %s [%s]" % (movie['perc'].rjust(4), movie['name'].ljust(longest), movie['right'].rjust(6))
+
+if __name__ == "__main__":
+	sys.exit(main())
