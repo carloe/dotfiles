@@ -11,13 +11,13 @@ import argparse
 
 SOURCE_URL = "http://www.rottentomatoes.com/"
 
-SPAN_PLAYING = 'sidebarInTheaterOpening'
+SPAN_OPENING = 'sidebarInTheaterOpening'
 SPAN_BOXOFFICE = 'sidebarInTheaterTopBoxOffice'
 SPAN_COMINGSOON = 'sidebarInTheaterComingSoon'
 
 def main():
 	parser = argparse.ArgumentParser(description="Get movie info from Rotten Tomatoes")
-	parser.add_argument('-p', "--playing", help='show movies that are now playing', action='store_true')
+	parser.add_argument('-o', "--opening", help='show movies that are opening this week', action='store_true')
 	parser.add_argument('-b', "--boxoffice", help='show boxoffice info', action='store_true')
 	parser.add_argument('-s', "--coming-soon", help='show movies will open soon', action='store_true')
 	args = parser.parse_args()
@@ -26,8 +26,8 @@ def main():
 	req.add_header('User-agent', 'Mozilla 5.10')
 	page = urllib2.urlopen(req)
 
-	if args.playing:
-		printTable(page, SPAN_PLAYING)
+	if args.opening:
+		printTable(page, SPAN_OPENING)
 	elif args.boxoffice:
 		printTable(page, SPAN_BOXOFFICE)
 	elif args.coming_soon:
