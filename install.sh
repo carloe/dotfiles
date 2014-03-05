@@ -39,14 +39,18 @@ if [ -f ~/.gitignore ]; then
 fi
 cp .gitignore ~/
 
-if test ! $(which brew)
+# Install brew if we are one a mac
+if [ "$(uname -s)" == "Darwin" ]
 then
-	echo "Installing Homebrew"
-	ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)" > /tmp/homebrew-install.log
-fi
+	if test ! $(which brew)
+	then
+		echo "Installing Homebrew"
+		ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)" > /tmp/homebrew-install.log
+	fi
 
-echo "Running Brewfile..."
-brew bundle homebrew/brewfile
+	echo "Running Brewfile..."
+	brew bundle homebrew/brewfile
+fi
 
 echo "Copying the scripts to /ust/bin. This requires sudo."
 sudo cp bin/* /usr/bin/
